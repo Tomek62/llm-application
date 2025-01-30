@@ -1,7 +1,7 @@
-import streamlit as st
-import time
-from rest.service import Chat, client
 import httpx
+import streamlit as st
+
+from rest.service import Chat, client
 
 st.set_page_config(
     page_title="JuniaGPT",
@@ -11,9 +11,9 @@ st.set_page_config(
 temperature_mapping = {"Accurate": 0, "Balanced": 0.7, "Creative": 1}
 # Let the user chose the temperature category he wants
 temperature_choice = st.sidebar.radio(
- label="Model Behavior",
- options=temperature_mapping.keys(),
- index=1,
+    label="Model Behavior",
+    options=temperature_mapping.keys(),
+    index=1,
 )
 # get the float value associated
 temperature = temperature_mapping.get(temperature_choice)
@@ -24,7 +24,10 @@ def get_chatbot_response(prompt):
     if "hello" in prompt.lower():
         return "Hello to you too!"
     else:
-        return "I'm still learning to understand. Can you try asking something different?"
+        return (
+            "I'm still learning to understand. Can you try asking something different?"
+        )
+
 
 st.title("JuniaGPT 🚀")
 st.write("Bienvenue sur mon super chatbot ! 🤖")
@@ -51,12 +54,9 @@ if prompt := st.chat_input("What is your question?", key="user_prompt"):
         if response.status_code == httpx.codes.OK:
             message = response.json()["message"]["content"]
             st.markdown(message)
-            st.session_state.messages.append({"role": "assistant", "content": message},)
+            st.session_state.messages.append(
+                {"role": "assistant", "content": message},
+            )
         else:
             st.write("It seems that something broke down 😅")
             st.write(response.status_code)
-
-
-
-
-
