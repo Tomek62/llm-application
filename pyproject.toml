@@ -17,5 +17,7 @@ tests = [
 
 [dependency-groups]
 dev = [
+    "isort>=6.0.0",
+    "pre-commit>=4.1.0",
     "ruff>=0.9.2",
 ]
